@@ -7,7 +7,7 @@ jobs:
         runs-on: self-hosted
         env:
           # PROOT: "https://api.getpostman.com/"
-#           PAPIKEY: "PMAK-606240e8d853470035192fd9-1768b5323874527686a727daab3cbfecfc"
+#           PAPIKEY: ${{secrets.PAPIKEY}}
 #           NOPTIONS: "-r zephyr --reporter-zephyr-name Smartx_Testing_PR_autotest -x"
 #           # COLLID: "14063679-9d58de6f-f4fb-460c-bdae-a9a918e6dbd0"  # Zephyr Examples - all pass : DEBUG ONLY
 #           # ENVID: "14063679-fcdaed09-23cf-4488-b4ac-ab4c6e501bc5"   # Zephyr Examples - all pass : DEBUG ONLY
