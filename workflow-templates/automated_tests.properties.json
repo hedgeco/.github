@@ -1,0 +1,5 @@
+{
+    "name": "SmartX Automated Testing Workflow",
+    "description": "Workflow template to spawn automated tests in each repository.",
+    "iconName": "octo"
+}
