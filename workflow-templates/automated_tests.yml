@@ -6,24 +6,27 @@ jobs:
     postman-tests-and-slack-updates:
         runs-on: self-hosted
         env:
+          COLLID_ATS_AUTO: ${{secrets.ATS_AUTOMATION}}  #  All Test Suites/Automation
+          COLLID_ATS_ADMIN: ${{secrets.ATS_AUTO_ADMIN}} #     Automation/Admin API/Auth
+          COLLID_ATS_AUTO: ${{secrets.ATS_AUTO_CLIENT}} #     Automation/Client API/Auth
+          COLLID_ATS_AUTO: ${{secrets.ATS_AUTO_NOMW}}   #     Automation/No Middleware
+          COLLID_TO_RUN: ""                             #   Choice of above based on repo
+          FOLDER: "--folder Automated"
+
           # PROOT: "https://api.getpostman.com/"
 #           PAPIKEY: ${{secrets.PAPIKEY}}
 #           NOPTIONS: "-r zephyr --reporter-zephyr-name Smartx_Testing_PR_autotest -x"
-#           # COLLID: "14063679-9d58de6f-f4fb-460c-bdae-a9a918e6dbd0"  # Zephyr Examples - all pass : DEBUG ONLY
-#           # ENVID: "14063679-fcdaed09-23cf-4488-b4ac-ab4c6e501bc5"   # Zephyr Examples - all pass : DEBUG ONLY
-          COLLID: "14063679-333c06a7-95aa-4885-b439-ea4c50bb3177"  # QA / All Test Suites
-#           ENVID: "14063679-8a841cc5-e132-46b3-935d-daae7cdc3253"   # StagingEnt1User1
-          # FOLDER: "--folder Automated"
+#           ENVID: TODO
 #           ZCROOT: "https://smartx.atlassian.net/projects/TEST?selectedItem=com.thed.zephyr.je__cycle-summary&testsTab=test-cycles-tab"
         steps:
         - name: Specify the test folder to be run.
           if: ${{github.repository == 'smartx/testing'}}
           env:
-            COLLID: '14063679-6990bdd9-323b-46e3-bf92-680cdefa16db'
-            FOLDER: '--folder All Pass'
-          run: echo ${{env.COLLID}} : ${{env.FOLDER}}
+            COLLID_TO_RUN: ${{secrets.ATS_AUTOMATION}}
+            FOLDER: '--folder Debug'
+          run: echo ${{env.COLLID_TO_RUN}} : ${{env.FOLDER}}
         - name: Check if env vars persist
-          run: echo ${{env.COLLID}} : ${{env.FOLDER}}
+          run: echo ${{env.COLLID_TO_RUN}} : ${{env.FOLDER}}
 #           run: newman run ${{env.PROOT}}collections/${{env.COLLID}}?apikey=${{env.PAPIKEY}} -e ${{env.PROOT}}environments/${{env.ENVID}}?apikey=${{env.PAPIKEY}} ${{env.NOPTIONS}} ${{env.FOLDER}}
 #         - name: Run postman tests with newman --reporter-reportername-name # --name threw error, -r <reporter_name>-name="" error bad reporter
 #           run: newman run ${{env.PROOT}}collections/${{env.COLLID}}?apikey=${{env.PAPIKEY}} -e ${{env.PROOT}}environments/${{env.ENVID}}?apikey=${{env.PAPIKEY}} ${{env.NOPTIONS}} ${{env.FOLDER}}
@@ -33,6 +36,7 @@ jobs:
 #           run: newman run ${{env.PROOT}}collections/${{env.COLLID}}?apikey=${{env.PAPIKEY}} -e ${{env.PROOT}}environments/${{env.ENVID}}?apikey=${{env.PAPIKEY}} ${{env.NOPTIONS}} ${{env.FOLDER}}
 #           id: ptests
 #         - name: Slack Notification
+#           TODO if job.fail set notify to @here
 #           if: always()
 #           uses: rtCamp/action-slack-notify@v2
 #           env:
@@ -44,9 +48,3 @@ jobs:
 #             SLACK_TITLE: ${{github.repository}}
 #             SLACK_WEBHOOK: ${{secrets.SLACK_TEST_RESULTS}}
 #             SLACK_LINK_NAMES : true
-
-
-#  Postman Collection IDs
-#  All Test Suites / Debug 14063679-6990bdd9-323b-46e3-bf92-680cdefa16db
-#  All Test Suites / Debug / All Passes 14063679-4b3d4927-7ed2-4d35-a47f-5fc56aa964ae
-#  All Test Suites / Debug / All Fails  14063679-c207d727-8f08-407e-b5fe-5191cea938c8
